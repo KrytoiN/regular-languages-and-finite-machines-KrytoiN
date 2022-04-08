@@ -1,0 +1,505 @@
+\documentclass{article}
+
+\usepackage[pdf]{graphviz}
+\usepackage{ragged2e}
+\usepackage[pdftex]{graphicx}
+\usepackage[utf8]{inputenc}			% кодировка исходного текста
+\usepackage[english,russian]{babel}	% локализация и переносы
+% Математика
+\usepackage{morewrites}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools,amstext} 
+\usepackage{amsmath}
+
+\begin{document}
+
+\section*{\huge{Задание №1}}
+
+    \begin{enumerate}
+        \LARGE
+        \item $L = \{ \omega \in \{a,b,c\}^*| \ |\omega|_c=1 \}$ \\
+
+            \begin{center}
+                \digraph{1.1}
+            \end{center}
+
+        \item $L = \{ \omega \in \{a,b\}^*| \ |\omega|_a \leq 2, |\omega|_b \geq 2 \}$ \\
+
+            \begin{center}
+                \digraph{1.2}
+            \end{center}
+            
+        \newpage
+        \item $L = \{ \omega \in \{a,b\}^*| \ |\omega|_a \neq |\omega|_b \}$ \\
+            
+            Докажем при помощи леммы о разрастании, что язык не является регулярным \\
+            
+            Возьмём $\bar L = \{ \omega \in \{a,b\}^*| \ |\omega|_a = |\omega|_b \}$, если $\bar L$
+            не является регулярным, то и $L$ не является регулярным $\Rightarrow$ невозможно построить автомат, который
+            распознаёт данный язык \\
+            
+            Док-во:
+            \begin{center}
+                $\omega = a^nb^n$ \\
+                $\omega = 2n \geq n$ \\
+                $xy = a^i a^j, i + j \leq n$ \\
+                $\omega =  a^i a^j a^{n-i-j} b^n$\\
+                $\omega = a^i a^{jk} a^{n-i-j}b^n \notin \bar L, k > 1$ $\blacktriangleright$ \\
+                
+            \end{center}
+            
+        \item $L = \{ \omega \in \{a,b\}^*| \ | \omega\omega = \omega\omega\omega \}$ \\
+            Данный язык состоит только из пустого слова
+            \begin{center}
+                \digraph{1.4}
+            \end{center}
+
+    \end{enumerate}
+
+
+\section*{\huge{Задание №2}}
+
+    \begin{enumerate}
+        \LARGE
+        
+        \item $ L_1 = \{ \omega \in \{a,b\}^*| \ |\omega|_a \geq 2 \land |\omega|_b \geq 2 \}$ \\ 
+        
+            $A_1 = \{ \omega \in \{a,b\}^*| \ |\omega|_a \geq 2 \}$
+
+            \begin{center}
+                \digraph{2.1.1} 
+            \end{center}
+
+            \begin{itemize}
+                \item $\sum_1 = \{ a,b \}$ \\
+                \item $Q_1 = \{ q_1, q_2, q_3 \} $ \\
+                \item $S_1 = q_1$ \\
+                \item$T_1 = q_3$
+            \end{itemize}
+            
+            {$A_2 = \{ \omega \in \{a,b\}^*| \ |\omega|_b \geq 2 \} $}
+
+            \begin{center}
+                \digraph{2.1.2} 
+            \end{center}
+            
+            \begin{itemize}
+                \item $\sum_2 = \{ a,b \}$ \\
+                \item $Q_2 = \{ q_4, q_5, q_6 \} $ \\
+                \item $S_2 = q_4$ \\
+                \item $T_4 = q_6$ \\
+            \end{itemize}
+
+            $\Rightarrow L_1 = A_1 \times A_2$, где
+            \begin{itemize}
+                \item $\sum = \{ a,b \}$ \\
+                \item $Q = \{ <q_1q_4> <q_1q_5> <q_1q_6> <q_2q_4> <q_2q_5> <q_2q_6> <q_3q_4> <q_3q_5> <q_3q_6> \}$ \\
+                \item $S = <q_1q_4>$ \\
+                \item $T = \{<q_3q_6> \}$ \\
+            \end{itemize}
+
+            \begin{tabular}{ | l | l | l | }
+                \hline
+                Состояние & Переход по a & Переход по b \\ \hline
+                $<q_1q_4>$ & $<q_2q_4>$ & $<q_1q_5>$  \\ \hline
+                $<q_1q_5>$ & $<q_2q_5>$ & $<q_1q_6>$ \\ \hline
+                $<q_1q_6>$ & $<q_2q_6>$ & $<q_1q_6>$ \\ \hline
+                $<q_2q_4>$ & $<q_3q_4>$ & $<q_2q_5>$ \\ \hline
+                $<q_2q_5>$ & $<q_3q_5>$ & $<q_2q_6>$ \\ \hline
+                $<q_2q_6>$ & $<q_3q_6>$ & $<q_2q_6>$ \\ \hline 
+                $<q_3q_4>$ & $<q_3q_4>$ & $<q_3q_5>$ \\ \hline
+                $<q_3q_5>$ & $<q_3q_5>$ & $<q_3q_6>$ \\ \hline
+                $<q_3q_6>$ & $<q_3q_6>$ & $<q_3q_6>$ \\
+                \hline
+            \end{tabular} \\
+        
+            \begin{center}
+                Таблица переходов
+                \digraph{2.1} 
+            \end{center}
+        
+        
+        \item $ L_2 = \{ \omega \in \{a,b\}^*| \ |\omega| \geq 3 \land |\omega| \  \text{нечётное} \}$ \\
+        
+            $A_1 = \{ \omega \in \{a,b\}^*| \ |\omega| \geq 3 \}$
+
+            \begin{center}
+                \digraph{2.2.1} 
+            \end{center}
+            
+            \begin{itemize}
+                \item $\sum_1 = \{ a,b \}$ \\
+                \item $Q_1 = \{ q_1, q_2, q_3, q_4 \} $ \\
+                \item $S_1 = q_1$ \\
+                \item $T_1 = q_4$ \\
+            \end{itemize}
+            
+            $A_2 = \{ \omega \in \{a,b\}^*| \ |\omega|\ \text{нечётное} \}$ \\
+
+            \begin{center}
+                \digraph{2.2.2} 
+            \end{center}
+            
+            \begin{itemize}
+                \item $\sum_2 = \{ a,b \}$ \\
+                \item $Q_2 = \{ q_5, q_6\} $ \\
+                \item $S_2 = q_5$ \\
+                \item $T_2 = q_6$ \\
+            \end{itemize}
+
+            $\Rightarrow L_2 = A_1 \times A_2$, где \\ \\
+            \begin{itemize}
+                \item $\sum = \{ a,b \}$ \\
+                \item $Q = \{<q_{15}> <q_{16}> <q_{25}> <q_{26}> \\ <q_{35}> <q_{36}> <q_{45}> <q_{46}> \}$ \\
+                \item $S = <q_{15}>$ \\
+                \item $T = \{<q_{46}> \}$ \\
+            \end{itemize}
+
+            \begin{tabular}{ | l | l | l | }
+                \hline
+                Состояние & Переход по a & Переход по b \\ \hline
+                $<q_{15}>$ & $<q_{26}>$ & $<q_{26}>$  \\ \hline
+                $<q_{16}>$ & $<q_{25}>$ & $<q_{25}>$ \\ \hline
+                $<q_{25}>$ & $<q_{36}>$ & $<q_{36}>$ \\ \hline
+                $<q_{26}>$ & $<q_{35}>$ & $<q_{35}>$ \\ \hline
+                $<q_{35}>$ & $<q_{46}>$ & $<q_{46}>$ \\ \hline
+                $<q_{36}>$ & $<q_{45}>$ & $<q_{45}>$ \\ \hline 
+                $<q_{45}>$ & $<q_{46}>$ & $<q_{46}>$ \\ \hline
+                $<q_{46}>$ & $<q_{45}>$ & $<q_{45}>$ \\
+                \hline
+            \end{tabular} \\
+
+            \begin{center}
+                Таблица переходов
+                \newpage
+                \digraph{2.2} 
+                 Уберём лишние вершины, т.к. в них мы \\
+                 попасть никак не сможем
+            \end{center}
+            
+            \begin{center}
+                \digraph{2.2.3} 
+                $\Rightarrow Q = \{ <q_{15}> <q_{26}> <q_{35}> <q_{46}> \\ <q_{45}> \} $ \\
+            \end{center}            
+            
+
+        \item $ L_3 = \{ \omega \in \{a,b\}^*| \ |\omega|_a \ \text{чётно} \  \land |\omega|_b \  \text{кратно трём} \}$ \\
+        
+            $A_1 = \{ \omega \in \{a,b\}^*| \ |\omega|_a \ \text{чётно} \}$
+            \begin{center}
+                \digraph{2.3.1} 
+            \end{center}
+            
+            \begin{itemize}
+                \item $\sum_1 = \{ a,b \}$ \\
+                \item $Q_1 = \{ q_1, q_2 \} $ \\
+                \item $S_1 = q_1$ \\
+                \item $T_1 = q_1$ \\
+            \end{itemize}
+
+            $A_2 = \{ \omega \in \{a,b\}^*| \ |\omega|_b \  \text{кратно трём} \}$ \\
+            \begin{center}
+                \digraph{2.3.2} 
+            \end{center}
+            
+            \begin{itemize}
+                \item $\sum_2 = \{ a,b \}$ \\
+                \item $Q_2 = \{ q_3, q_4, q_5 \} $ \\
+                \item $S_2 = q_3$ \\
+                \item $T_2 = q_3$ \\
+            \end{itemize}
+        
+            $\Rightarrow L_3 = A_1 \times A_2$, где
+            \begin{itemize}
+                \item $\sum = \{ a,b \}$ \\
+                \item $Q = \{<q_{13}> <q_{14}> <q_{15}> <q_{23}> \\ <q_{24}> <q_{25}>\}$ \\
+                \item $S = <q_{13}>$ \\
+                \item $T = \{<q_{13}> \}$ \\
+            \end{itemize}
+        
+            \begin{tabular} { | l | l | l | }
+                \hline 
+                Состояние & Переход по a & Переход по b \\ \hline
+                $<q_{13}>$ & $<q_{23}>$ & $<q_{14}>$  \\ \hline
+                $<q_{14}>$ & $<q_{24}>$ & $<q_{15}>$ \\ \hline
+                $<q_{15}>$ & $<q_{25}>$ & $<q_{13}>$ \\ \hline
+                $<q_{23}>$ & $<q_{13}>$ & $<q_{24}>$ \\ \hline
+                $<q_{24}>$ & $<q_{14}>$ & $<q_{25}>$ \\ \hline
+                $<q_{25}>$ & $<q_{15}>$ & $<q_{23}>$ \\ 
+                \hline
+            \end{tabular}
+
+            \begin{center}
+                Таблица переходов
+                \digraph{2.3} 
+            \end{center}
+
+        \item $ L_4 = \bar{L_3}$ \\
+        
+            $L_3 = \{ \sum, Q_3, S_3, T_3, \delta_3  \}$ \\ 
+            $\bar{L_3} = \{ \sum, Q_3, S_3, Q_3\backslash T_3, \delta_3  \}$ \\
+            $\Rightarrow T_4 = Q_3 \backslash T_3 = \{<q_{14}> <q_{15}> \\ <q_{23}> <q_{24}> <q_{25}>\}$
+        
+            \begin{center}
+                \digraph{2.4}
+            \end{center}        
+            
+        
+        \item $ L_5 = L_2 \backslash L_3$  \\ 
+            
+            $L_2 \backslash L_3 = L_2 \cap \bar{L_3} = L_2 \cap L_4$ \\ 
+            
+            \begin{itemize}
+                \item $\sum_2 = \{ a,b \}$
+                \item $Q_2 = \{ <q_{15}> <q_{26}> <q_{35}> <q_{46}> \\ <q_{45}> \} $
+                \item $S_2 = <q_{15}>$ 
+                \item $T_2 = \{<q_{46}> \}$ 
+            \end{itemize}
+            
+            \begin{itemize}
+                \item $\sum_4 = \{ a,b \}$ 
+                \item $Q_4 = \{<q_{13}> <q_{14}> <q_{15}> <q_{23}> \\ <q_{24}> <q_{25}>\}$ 
+                \item $S_4 = <q_{13}>$ 
+                \item $T_4 = \{<q_{14}> <q_{15}> \\ <q_{23}> <q_{24}> <q_{25}>\}$ \\
+            \end{itemize}
+            
+            $\Rightarrow L_5 = A_2 \times A_3$, где
+            \begin{itemize}
+                \item $\sum = \{ a,b \}$ 
+                \item $Q = \{ <q_{15} q_{13}> <q_{15} q_{14}> <q_{15} q_{15}> <q_{15} q_{23}> <q_{15} q_{24}> <q_{15} q_{25}> 
+                <q_{26} q_{13}> <q_{26} q_{14}> <q_{26} q_{15}> <q_{26} q_{23}> <q_{26} q_{24}> <q_{26} q_{25}>
+                <q_{35} q_{13}> <q_{35} q_{14}> <q_{35} q_{15}> <q_{35} q_{23}> <q_{35} q_{24}> <q_{35} q_{25}>
+                <q_{45} q_{13}> <q_{45} q_{14}> <q_{45} q_{15}> <q_{45} q_{23}> <q_{45} q_{24}> <q_{45} q_{25}>
+                <q_{46} q_{13}> <q_{46} q_{14}> <q_{46} q_{15}> <q_{46} q_{23}> <q_{46} q_{24}> <q_{46} q_{25}>\}$ 
+                \item $S = <q_{15} q_{13}>$ 
+                \item $T = \{<q_{46} q_{14}> <q_{46} q_{15}> <q_{46} q_{23}> \\ <q_{46} q_{24}> <q_{46} q_{25}>\}$ \\
+            \end{itemize}
+            
+            \begin{tabular} { | l | l | l | }
+                \hline 
+                Состояние & Переход по a & Переход по b \\ \hline
+                $<q_{15} q_{13}>$ & $<q_{26} q_{23}>$ & $<q_{26} q_{14}>$ \\ \hline
+                $<q_{15} q_{14}>$ & $<q_{26} q_{24}>$ & $<q_{26} q_{15}>$ \\ \hline
+                $<q_{15} q_{15}>$ & $<q_{26} q_{25}>$ & $<q_{26} q_{13}>$ \\ \hline
+                $<q_{15} q_{23}>$ & $<q_{26} q_{13}>$ & $<q_{26} q_{24}>$ \\ \hline
+                $<q_{15} q_{24}>$ & $<q_{26} q_{14}>$ & $<q_{26} q_{25}>$ \\ \hline
+                $<q_{15} q_{25}>$ & $<q_{26} q_{15}>$ & $<q_{26} q_{23}>$ \\ \hline
+                $<q_{26} q_{13}>$ & $<q_{35} q_{23}>$ & $<q_{35} q_{14}>$ \\ \hline
+                $<q_{26} q_{14}>$ & $<q_{35} q_{24}>$ & $<q_{35} q_{15}>$ \\ \hline
+                $<q_{26} q_{15}>$ & $<q_{35} q_{25}>$ & $<q_{35} q_{13}>$ \\ \hline
+                $<q_{26} q_{23}>$ & $<q_{35} q_{13}>$ & $<q_{35} q_{24}>$ \\ \hline
+                $<q_{26} q_{24}>$ & $<q_{35} q_{14}>$ & $<q_{35} q_{25}>$ \\ \hline
+                $<q_{26} q_{25}>$ & $<q_{35} q_{15}>$ & $<q_{35} q_{23}>$ \\ \hline
+                $<q_{35} q_{13}>$ & $<q_{46} q_{23}>$ & $<q_{46} q_{14}>$ \\ \hline
+                $<q_{35} q_{14}>$ & $<q_{46} q_{24}>$ & $<q_{46} q_{15}>$ \\ \hline
+                $<q_{35} q_{15}>$ & $<q_{46} q_{25}>$ & $<q_{46} q_{13}>$ \\ \hline
+                $<q_{35} q_{23}>$ & $<q_{46} q_{13}>$ & $<q_{46} q_{24}>$ \\ \hline
+                $<q_{35} q_{24}>$ & $<q_{46} q_{14}>$ & $<q_{46} q_{25}>$ \\ \hline
+                $<q_{35} q_{25}>$ & $<q_{46} q_{15}>$ & $<q_{46} q_{23}>$ \\ \hline
+                $<q_{45} q_{13}>$ & $<q_{46} q_{23}>$ & $<q_{46} q_{14}>$ \\
+                \hline
+            \end{tabular} \\
+            
+            \begin{tabular} { | l | l | l | }
+                \hline
+                $<q_{45} q_{14}>$ & $<q_{46} q_{24}>$ & $<q_{46} q_{15}>$ \\ \hline
+                $<q_{45} q_{15}>$ & $<q_{46} q_{25}>$ & $<q_{46} q_{13}>$ \\ \hline
+                $<q_{45} q_{23}>$ & $<q_{46} q_{13}>$ & $<q_{46} q_{24}>$ \\ \hline
+                $<q_{45} q_{24}>$ & $<q_{46} q_{14}>$ & $<q_{46} q_{25}>$ \\ \hline 
+                $<q_{45} q_{25}>$ & $<q_{46} q_{15}>$ & $<q_{46} q_{23}>$ \\ \hline
+                $<q_{46} q_{13}>$ & $<q_{45} q_{23}>$ & $<q_{45} q_{14}>$ \\ \hline
+                $<q_{46} q_{14}>$ & $<q_{45} q_{24}>$ & $<q_{45} q_{15}>$ \\ \hline
+                $<q_{46} q_{15}>$ & $<q_{45} q_{25}>$ & $<q_{45} q_{13}>$ \\ \hline
+                $<q_{46} q_{23}>$ & $<q_{45} q_{13}>$ & $<q_{45} q_{24}>$ \\ \hline
+                $<q_{46} q_{24}>$ & $<q_{45} q_{14}>$ & $<q_{45} q_{25}>$ \\ \hline
+                $<q_{46} q_{25}>$ & $<q_{45} q_{15}>$ & $<q_{45} q_{23}>$ \\ 
+                \hline
+            \end{tabular}
+            
+            \begin{center}
+                Таблица переходов
+                \digraph{2.5}
+            \end{center}
+            
+                 Уберём лишние вершины, т.к. в них мы \\
+                 попасть никак не сможем      
+                 
+            \begin{center}
+                \digraph{2.5.2} 
+                $\Rightarrow Q = \{ <q_{15}q_{13}> <q_{26}q_{23}> <q_{26}q_{14}> \\ <q_{35}q_{13}> <q_{35}q_{24}> <q_{46}q_{14}> <q_{45}q_{15}> \\ <q_{45}q_{24}> <q_{35}q_{15}> <q_{46}q_{25}> <q_{45}q_{23}> \\ <q_{46}q_{24}> <q_{46}q_{13}> <q_{45}q_{14}> <q_{46}q_{15}> \\ <q_{45}q_{13}> <q_{46}q_{23}> <q_{45}q_{25}>\} $ \\
+            \end{center} 
+            
+    \end{enumerate}
+    
+\section*{\huge{Задание №3}} 
+
+    \begin{enumerate}
+        \LARGE
+        
+        
+        \item $ (ab + aba)^*a$ \\
+            Построим НКА \\
+            
+            \begin{center}
+                \digraph{3.1.1}
+            \end{center}
+            
+            Построим ДКА
+            
+            \begin{tabular} { | l | l | l | }
+                \hline 
+                Состояние & Переход по a & Переход по b \\ \hline
+                $q_1$ & $q_5q_6q_{12}$ & $\varnothing$ \\ \hline
+                $q_5q_6q_{12}$ & $\varnothing$ & $q_7q_8$ \\ \hline
+                $q_7q_8$ & $q_5q_6q_{12}q_9$ & $\varnothing$ \\ \hline
+                $q_5q_6q_{12}q_9$ & $q_5q_6_{12}$ & $q_7q_8$ \\ \hline                
+                
+                \hline
+            \end{tabular} \\          
+            
+            \begin{center}
+                \digraph{3.1.2}
+            \end{center}    
+        
+        \item $a(a(ab)^*b)^*(ab)^*$ \\
+            Построим НКА
+            \begin{center}
+                \digraph{3.2.1}
+            \end{center}
+            
+            Построим ДКА
+            
+            \begin{tabular} { | l | l | l | }
+                \hline 
+                Состояние & Переход по a & Переход по b \\ \hline
+                $q_1$ & $q_2$ & $\varnothing$ \\ \hline
+                $q_2$ & $q_3q_7$ & $\varnothing$ \\ \hline
+                $q_3q_7$ & $q_4$ & $q_2$ \\ \hline
+                 $q_4$ & $\varnothing$ & $q_3q_7$ \\
+                \hline
+            \end{tabular} \\  
+            
+            \begin{center}
+                \digraph{3.2.2}
+            \end{center}
+        
+        
+        \newpage
+        \item $(a+(a+b)(a+b)b)^*$ \\
+            Построим НКА
+            \begin{center}
+                \digraph{3.3.1}
+            \end{center}
+            
+            Построим ДКА
+            
+            \begin{tabular} { | l | l | l | }
+                \hline 
+                Состояние & Переход по a & Переход по b \\ \hline
+                $q_1$ & $q_5q_6$ & $q_6$ \\ \hline
+                $q_5q_6$ & $q_5q_6q_7$ & $q_6q_7$ \\ \hline
+                $q_5q_6q_7$ & $q_5q_6_7$ & $q_5q_6q_7$ \\ \hline
+                $q_6q_7$ & $q_7$ & $q_7q_8$ \\ \hline
+                $q_6$ & $q_7$ & $q_7$ \\ \hline
+                $q_7$ & $\varnothing$ & $q_1$ \\ \hline
+                $q_7q_8$ & $q_5q_6$ & $q_5q_6$ \\
+                \hline
+            \end{tabular} \\
+            
+            \begin{center}
+                \digraph{3.3.2}
+            \end{center}
+        
+        
+        \item $(b+c)((ab)^*c+(ba)^*)^*$ \\
+            Построим НКА
+            \begin{center}
+                \digraph{3.4.1}
+            \end{center} 
+            
+            \newpage Построим ДКА
+            
+            \begin{tabular} { | l | l | l | l | }
+                \hline 
+                Состояние & Переход по a & Переход по b & Переход по c \\ \hline
+                $q_1$ & $\varnothing$ & $q_2$ & $q_2$ \\ \hline
+                $q_2$ & $q_5$ & $q_6$ & $\varnothing$ \\ \hline
+                $q_5$ & $\varnothing$ & $q_7$ & $\varnothing$ \\ \hline
+                $q_6$ & $q_2$ & $\varnothing$ & $\varnothing$ \\ \hline
+                $q_7$ & $q_5$ & $\varnothing$ & $q_2$ \\
+                \hline
+            \end{tabular} \\  
+            
+            \begin{center}
+                \digraph{3.4.2}
+            \end{center}
+           
+            
+        \item $(a+b)^+(aa + bb + abab + baba)(a + b)^+$ \\
+            Построим НКА
+            \begin{center}
+                \digraph{3.5.1}
+            \end{center}
+            Построим ДКА, т.к. при построении его через таблицу, она получатся слишком большой, поэтому проще и быстрее построить вручную
+            
+            \begin{center}
+                \digraph{3.5.2}
+            \end{center}
+            
+    \end{enumerate}
+    
+\section*{\huge{Задание №4}}
+
+        \begin{enumerate}
+            \LARGE
+        
+            \item $L = \{ (aab)^n b(aba)^m | \ n \geq 0, m \geq 0 \}$ \\
+                Данный язык является регулярным, построим к нему автомат
+                \begin{center}
+                    \digraph{4.1}
+                \end{center}
+            
+            \item $ L = \{ uaav \ | \  u \in \{a,b\}^*, v \in \{a,b\}^*, |u|_b \geq |v|_a \}$ 
+                \begin{center}
+                    $\omega = b^naa^n, |w| \geq n$ \\
+                    $\omega = xyz$ \\
+                    $x =b^i \ y = b^j \ i+j \leq n \ j > 0$ \\
+                    $z = b^{n-i-j}aaa^n$ \\
+                    $|xy| \leq n \ |y| > 0$ \\
+                    $xy^0z = b^ib^{n-i-j}aa^n = b^{n-j}aaa^n \notin L$ \\
+                    $\Rightarrow \textbf{не регулярный язык}$
+                \end{center}
+            
+            \item $L = \{ a^m \omega \ | \ \omega \in \{a,b\}^*, 1 \leq |\omega|_b \leq m \}$ \\
+                \begin{center}
+                    $\omega = a^nb^n, |w| \geq n$ \\
+                    $\omega = xyz$ \\
+                    $x = a^i \  y = a^j \  i + j \leq n \  j > 0$ \\
+                    $z = a^{n-i-j}b^n$ \\
+                    $|xy| \leq n \  |y| > 0$ \\
+                    $xy^0z = a^i a^{n-i-j} b^n = a^{n-j} b^n \notin L$ \\
+                    $\Rightarrow \textbf{не регулярный язык}$
+                \end{center}
+        
+            \item $L = \{ a^k b^m a^n \ | \ k = n \vee m > 0$ \} \\
+                Данный язык является регулярным, построим к нему автомат
+                \begin{center}
+                    \digraph{4.4}
+                \end{center}
+                
+            \item $L = \{ucv \ | \ u \in \{a,b\}^*, v \in \{a,b\}^*, u \neq v^R \}$ \\
+            Докажем от обратного, возьмём язык $\bar L$, в котором $u = v^R$, если $\bar L$
+            не является регулярным, то и $L$ не является регулярным
+                \begin{center}
+                    $\omega = (ab)^n c (ba)^n = a_1a_2...a_{4n+1}, \ |w| \geq n$ \\
+                    $\omega = xyz$ \\
+                    $x = a_1a_2...a_i \ y = a_{i+1}a_{i+2}...a_{i+j} \ i + j \leq n$ \\
+                    $z = a_{i+j+1}a{i+j+2}...a_{2n}c(ba)^n$ \\
+                    $|xy| \leq n \ |y| > 0$ \\
+                    $xy^kz = a_1...a_i(a_{i+1}...a_{i+j})^k a_{i+j+1}...\\ ..a_{2n}c(ba)^n \notin \bar L \ \forall k > 1$\\
+                    $\Rightarrow \textbf{и язык L не является регулярным}$
+                \end{center}
+        
+        \end{enumerate}
+    
+    
+\end{document}
