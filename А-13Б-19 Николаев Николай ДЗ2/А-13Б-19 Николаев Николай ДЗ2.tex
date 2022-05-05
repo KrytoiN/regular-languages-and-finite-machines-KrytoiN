@@ -1,0 +1,206 @@
+\documentclass{article}
+
+\usepackage[pdf]{graphviz}
+\usepackage{ragged2e}
+\usepackage[pdftex]{graphicx}
+\usepackage[utf8]{inputenc}			% кодировка исходного текста
+\usepackage[english,russian]{babel}	% локализация и переносы
+\usepackage{lscape}
+% Математика
+\usepackage{morewrites}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools,amstext} 
+\usepackage{amsmath}
+\usepackage{geometry}
+
+\begin{document}
+
+    \section*{\huge{Задание №1}}
+    
+        \begin{enumerate}
+            \LARGE
+            \item В алфавите $\sum = \{a,b,c\}$ постройте грамматику для языка $L = \{ \omega \in \sum^* \ | 
+            \ \omega \ \text{содержит подстроку aa} \}.$ Например, $\{aa, baac, caabb\} \subset L.$ \\
+            
+                $S \rightarrow bS \ | \ cS \ | \ aaX \ | \ aS $ \\
+                $X \rightarrow aX \ | \ bX \ | \ cX \ | \ \lambda$ \\
+            
+            \item В алфавите $\sum = \{a,b,c\}$ постройте грамматику для языка $L = \{ \omega \in \sum^* \ |
+            \ \omega \  \text{не палиндром} \}.$ Например, $\{aab, baabab\} \subset L$, а $\{ aba, bb,
+            \lambda \} \not\subset L.$ \\
+            
+                $S \rightarrow aX_1 \ | \ bX_2 \ | \ cX_3 $  \\
+                $X_1 \rightarrow X_4c \ | \ X_4b \ | \ Sa $  \\
+                $X_2 \rightarrow X_4a \ | \ X_4c \ | \ Sb $  \\
+                $X_3 \rightarrow X_4a \ | \ X_4b \ | \ Sc $  \\
+                $X_4 \rightarrow aX_4 \ | \ bX_4 \ | \ cX_4 \ | \ \lambda $  \\
+                
+            \item Алфавит $\sum = \{ \emptyset, \mathbb{N}, 
+            \textquoteleft \{ \textquoteleft , \textquoteleft \}\textquoteleft, \cup \}$ Построить грамматику для языка
+            $L = \{ \omega \in \sum^*|\omega \ - $ синтаксически корректная строка,обозначающая множество $\}$ \\
+            
+                $S \rightarrow o \ | \ n \ | \ \{ X \} \ | \ S u S$ \\
+                $X \rightarrow S,X_1 \ | \ S \ | \ \lambda $ \\
+                $X_1 \rightarrow S,X_1 \ | \ S$ \\
+        \end{enumerate}
+        
+    \section*{\huge{Задание №2}}
+    
+        \begin{enumerate}
+            \LARGE
+            \item Алфавит $\sum = \{ 1,+,= \}$ \\ Рассмотрим язык $A = \{ 1^m + 1^n = 1^{m+n}|m,n \in \mathbb{N} \}$
+                \begin{enumerate}
+                    \item Докажите, что язык A регулярный (построением) или не регулярный (через лемму о накачке) \\
+                    
+                        \begin{center}
+                            $\omega = 1^n + 1^n = 1^{2n}, |w| \geq n$ \\
+                            $\omega = xyz$ \\
+                            $x = 1^i \  y = 1^j \  i + j \leq n \  j > 0$ \\
+                            $z = 1^{n-i-j} + 1^n = 1^{2n}$ \\
+                            $|xy| \leq n \  |y| > 0$ \\
+                            Возьмём $k = 0$ \\
+                            $xy^0z = 1^i 1^{n-i-j} + 1^n = (1^{n-j} + 1^n = 1^{2n}) \notin A$ \\
+                            $\Rightarrow \textbf{не регулярный язык}$
+                        \end{center}
+                        
+                    \item Постройте КС-грамматику для языка A, показывающую, что A $ - $ контекстно-свободный \\
+                    
+                        $S \rightarrow 1S1 \ | \ +X$ \\
+                        $X \rightarrow 1X1 \ | \ =$ \\
+                \end{enumerate}
+        \end{enumerate}
+
+    \section*{\huge{Задание №3}}
+    
+        \begin{enumerate}
+            \LARGE
+            \item Вы пошли гулять с собакой, ваша собака на поводке длины 2. Это значит, что она не может отойти от вас
+            более чем на 2 шага. Пусть $\sum = \{ h,d \}$, где h $ - $ ваше перемещение на 1 шаг вперёд, а d $ - $ шаг
+            собаки. Например, hhdd обозначает, что вы прошли на 2 шага вперёд, затем собака подошла к вам. При этом
+            прогулка может быть завершена, если собака и человек оказались в одной точке. \\
+            Пусть $D_1 = \{ \omega \in \sum^*|\omega \ $ описывает последовательность ваших шагов и шагов вашей
+            собаки на прогулке с поводком $\}$
+                \begin{enumerate}
+                    \item Докажите, что язык $D_1$ регулярный (построением) или не регулярный (через лемму о накачке). \\
+                        
+                    \begin{center}
+                        \digraph{3.1}
+                    \end{center}
+                        
+                    \item Постройте КС-грамматику для $D_1$, показывающую, что $D_1 - $ контекстно-свободный \\
+                    
+                        $S \rightarrow hX_1 \ | \ dX_2 \ | \ \lambda$ \\
+                        $X_1 \rightarrow dS \ | \ hdX_1$ \\
+                        $X_2 \rightarrow hS \ | \ dhX_2$ \\
+                \end{enumerate}
+            \item Допустим теперь, что вы также пошли на прогулку с собакой, но не взяли с собой поводок. Это значит, что
+            вы можете отдалиться от собаки на любое расстояние. \\
+            Пусть $D_2 = \{ \omega \in \sum^* |\omega \ $ описывает последовательность ваших шагов и шагов вашей собаки на
+            прогулке без поводка $\}$
+                \begin{enumerate}
+                    \item Докажите, что язык $D_2$ регулярный (построением) или не регулярный (через лемму о накачке). \\
+                    
+                        \begin{center}
+                            $\omega = h^n d^n, |w| \geq n$ \\
+                            $\omega = xyz$ \\
+                            $x = h^i \  y = h^j \  i + j \leq n \  j > 0$ \\
+                            $z = h^{n-i-j} d^n$ \\
+                            $|xy| \leq n \  |y| > 0$ \\
+                            Возьмём $k = 0$ \\
+                            $xy^0z = h^i h^{n-i-j} d^n = h^{n-j} d^n \notin D_2$ \\
+                            $\Rightarrow \textbf{не регулярный язык}$
+                        \end{center}
+                    
+                    \item Постройте КС-грамматику для $D_2$, показывающую, что $D_2 - $ контекстно-свободный \\
+                    
+                    $S \rightarrow hSd \ | \ dSh \ | \ \lambda \ | \ SS$ \\
+                \end{enumerate}
+                
+        \end{enumerate}
+        
+    \section*{\huge{Задание №4}}
+        \LARGE
+        Пусть Perm($\omega$) $ - $ это множество всех пермутаций строки $\omega$, то есть, множество всех уникальных строк, состоящих из тех же букв и в том же количеству, что и в $\omega$. Если $L - $ регулярный язык, то Perm(L) $ - $ это объединение Perm($\omega$) для всех $\omega$ в L. Если L регулярный, то Perm(L) иногда тоже регулярный, иногда контекстно-свободный, но не регулярный, а иногда даже не контекстно-свободный. Рассмотрите следующие регулярные выражения R и установите, является ли Perm((R)) регулярным, контекстно-свободным или ни тем и ни другим.
+        \begin{enumerate}
+            \item $(01)^*$ \\
+            
+                \begin{center}
+                    $\omega = 0^n 1^n, |w| \geq n$ \\
+                    $\omega = xyz$ \\
+                    $x = 0^i \  y = 0^j \  i + j \leq n \  j > 0$ \\
+                    $z = 0^{n-i-j} 1^n$ \\
+                    $|xy| \leq n \  |y| > 0$ \\
+                    Возьмём $k = 0$ \\
+                    $xy^0z = 0^i 0^{n-i-j} 1^n = 0^{n-j} 1^n \notin Perm((R))$ \\
+                    $\Rightarrow \textbf{не регулярный язык}$
+                \end{center}
+                
+                $S \rightarrow 0S1 \ | \ 1S0 \ | \ \lambda \ | \ SS$ \\
+            
+            \item $0^* + 1^*$ \\
+            
+                \begin{center}
+                    \digraph{4.2}
+                \end{center}
+                $S \rightarrow 0X_1 \ | \ 1X_2 \ | \ \lambda$ \\
+                $X_1 \rightarrow 0X_1 \ | \ \lambda$ \\
+                $X_2 \rightarrow 1X_2 \ | \ \lambda$ \\
+                
+            \item $(012)^*$ \\
+            
+                \begin{center}
+                    $\omega = 0^n 1^n 2^n, |w| \geq n$ \\
+                    $\omega = xyz$ \\
+                    $x = 0^i \  y = 0^j \  i + j \leq n \  j > 0$ \\
+                    $z = 0^{n-i-j} 1^n 2^n$ \\
+                    $|xy| \leq n \  |y| > 0$ \\
+                    Возьмём $k = 0$ \\
+                    $xy^0z = 0^i 0^{n-i-j} 1^n 2^n = 0^{n-j} 1^n 2^n \notin Perm((R))$ \\
+                    $\Rightarrow \textbf{не регулярный язык}$
+                \end{center}
+                
+                \begin{center}
+                    $\alpha = 0^n 1^n 2^n, |\alpha| \ge n$ \\
+                    $v \omega x =\left[ 
+                    \begin{gathered} 
+                        0^k, \ k \leq n \\ 
+                        1^k, \ k \leq n \\
+                        2^k, \ k \leq n \\ 
+                        0^i 1^j, \ i + j \leq n \\ 
+                        1^i 2^j, \ i + j \leq n \\ 
+                    \end{gathered} 
+                    \right.$
+                    $|v \omega x| \leq n$ \\
+                    $\alpha = u v^k \omega x^k y$ \\
+                \end{center}
+                
+                Если взять k = 0 уменьшится кол-во 0 или 1 или 2 или 01 или 12 \\
+                $\Rightarrow$ не контекстно-свободный 
+        \end{enumerate}
+    
+    \section*{\huge{Задание №5}}
+        \LARGE
+        Все правила праволинейной КС-грамматики имеют одну из следующих форм:
+        \begin{center}
+            $A \rightarrow \lambda $ \\
+            $A \rightarrow B$ \\
+            $A \rightarrow aB$ \\
+        \end{center}
+        где $A,B - $ нетерминалы, а $a - $ терминал \\
+        \begin{enumerate}
+            \item Пусть грамматика $G - $ прямолинейная. Опишите алгоритм построения НКА  N, такого, что $(N) = (G)$.
+            Коротко докажите(от противного), что ваш алгоритм может получить только слова из языка грамматики. Проиллюстрируйте алгоритм на грамматике: \\
+           \begin{enumerate}
+                \item Множество вершин = Множеству нетерминалов \\
+                \item Множество конечных вершин = Множеству  нетерминалов у которых в правилах вывода справа были лямбда (A $\rightarrow \lambda$) \\
+                \item Стартовая вершина = стартовый нетерминал \\
+                \item Для правил вида A $\rightarrow$ aB добавим переход из вершины A в вершину B по символу a. Для правил A $\rightarrow$ B добавляем лямбда переход из A в B
+            \end{enumerate}
+            \begin{center}
+                    $A \rightarrow aB|bC$ \\
+                    $B \rightarrow aB|\lambda$ \\
+                    $C \rightarrow aD|A|bC$ \\
+                    $D \rightarrow aD|bD|\lambda$ \\
+                \end{center}
+        \end{enumerate}
+    
+\end{document}
